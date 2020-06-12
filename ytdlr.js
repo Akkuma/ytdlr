@@ -130,7 +130,7 @@
     js = js.substr(js.indexOf('a=a.split("");var') + 1)
     let top = util.sub(js, 'a=a.split("")', -15, '};', 1)
     let side = util.sub(js, `var ${util.sub(top, 'a=a.split("")', 14, '(').split('.')[0]}`, 0, '};', 2)
-    return eval(side + top) // eslint-disable-line no-eval
+    return new Function('a', `${side} var ${top}; return Fw(a)`); // eslint-disable-line no-eval
   }
 
   async function getVideoData (id, sts, detail) {
