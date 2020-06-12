@@ -34,7 +34,7 @@
   }
 
   function get (url, opts = {}) {
-    if (!url.includes(opts.base)) url = `${opts.base}/${url}`;
+    if (opts.base && !url.includes(opts.base)) url = `${opts.base}/${url}`;
     if (opts.query) {
       let parts = ''
       for (let prop in opts.query) parts += `&${prop}=${encodeURIComponent(opts.query[prop])}`
