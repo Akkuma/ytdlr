@@ -1,6 +1,6 @@
 /* global fetch */
 (function () {
-  window.ytdlr = url => main(url)
+  window.ytdlr = (url, opts = {}) => main(url, opts)
 
   let util = {
     base: 'https://www.youtube.com',
@@ -34,6 +34,7 @@
   }
 
   function get (url, opts = {}) {
+    if (!url.includes(opts.base)) url = `${opts.base}/${url}`;
     if (opts.query) {
       let parts = ''
       for (let prop in opts.query) parts += `&${prop}=${encodeURIComponent(opts.query[prop])}`
@@ -45,7 +46,8 @@
     return out
   }
 
-  async function main (link = window.location.href) {
+  async function main (link = window.location.href, opts) {
+    util.base = opts.base || util.base;
     let id = util.formatId(link)
     let info = await getPlayerData(id)
     let data = await getVideoData(id, info.sts)
